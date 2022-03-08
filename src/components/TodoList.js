@@ -83,7 +83,6 @@ const TodoList = () => {
   });
 
   const [text, setText] = useState("");
-  const scrollDiv = useRef();
 
   const handleAddToDo = (e) => {
     e.preventDefault();
@@ -109,7 +108,6 @@ const TodoList = () => {
       };
       setContent(objNew);
       swal("Successfull", "Add successfull", "success");
-      scrollDiv.current.scrollIntoView({ behavior: "smooth" });
       setText("");
     }
   };
@@ -173,7 +171,6 @@ const TodoList = () => {
     });
   };
 
-  console.log(content);
 
   return (
     <div className="bg-[#222222]">
@@ -266,7 +263,6 @@ const TodoList = () => {
               ))}
           </div>
         </div>
-        <div ref={scrollDiv}></div>
       </div>
     </div>
   );

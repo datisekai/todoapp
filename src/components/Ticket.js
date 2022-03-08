@@ -36,7 +36,7 @@ const Ticket = ({
             <input
               className="bg-transparent border-b px-4 py-1 w-[70%] border-blue-400 outline-none text-gray-100"
               placeholder="Enter your new text.."
-              type="textarea"
+              type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
             ></input>
