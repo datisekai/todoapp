@@ -12,19 +12,19 @@ const TodoList = () => {
         {
           id: uuidv4(),
           text: "Zontrax",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "todos",
         },
         {
           id: uuidv4(),
           text: "Stronghold",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "todos",
         },
         {
           id: uuidv4(),
           text: "Viva",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "todos",
         },
       ],
@@ -35,13 +35,13 @@ const TodoList = () => {
         {
           id: uuidv4(),
           text: "Zontrax",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "in-progress",
         },
         {
           id: uuidv4(),
           text: "Tin",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "in-progress",
         },
       ],
@@ -52,13 +52,13 @@ const TodoList = () => {
         {
           id: uuidv4(),
           text: "Namfix",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "done",
         },
         {
           id: uuidv4(),
           text: "Bitwolf",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "done",
         },
       ],
@@ -69,13 +69,13 @@ const TodoList = () => {
         {
           id: uuidv4(),
           text: "Cardguard",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "need-review",
         },
         {
           id: uuidv4(),
           text: "Trippledex",
-          createdDate: Date.now(),
+          createdDate: (new Date()).toISOString(),
           currentColumnKey: "need-review",
         },
       ],
@@ -100,7 +100,7 @@ const TodoList = () => {
             {
               id: uuidv4(),
               text,
-              createdDate: Date.now(),
+              createdDate: (new Date()).toISOString(),
               currentColumnKey: "todos",
             },
           ],
@@ -128,7 +128,7 @@ const TodoList = () => {
         ...content[targetColumnKey.key],
         tickets: [
           ...content[targetColumnKey.key].tickets,
-          { ...currentTicket[0], key: targetColumnKey.todos },
+          { ...currentTicket[0], key: targetColumnKey.todos,currentColumnKey:targetColumnKey.todos },
         ],
       },
     });
@@ -153,30 +153,38 @@ const TodoList = () => {
             tickets: newTickets,
           },
         });
-      } 
+      }
     });
   };
 
   const handleEdit = (currentColumnKey, id, text, e) => {
     e.preventDefault();
-    const newTickets = content[currentColumnKey].tickets.map((item) =>
-      item.id === id ? { ...item, text,lastModifiedDate:Date.now() } : item
-    );
-    setContent({
-      ...content,
-      [currentColumnKey]: {
-        ...content[currentColumnKey],
-        tickets: newTickets,
-      },
-    });
+    if (!text.trim()) {
+      swal("Oops", "Please enter content for ticket!", "error");
+    } else if (text.trim().length < 4) {
+      swal("Oops", " Please enter at least 4 characters!", "error");
+    } else {
+      const newTickets = content[currentColumnKey].tickets.map((item) =>
+        item.id === id ? { ...item, text, lastModifiedDate: (new Date()).toISOString() } : item
+      );
+      setContent({
+        ...content,
+        [currentColumnKey]: {
+          ...content[currentColumnKey],
+          tickets: newTickets,
+        },
+      });
+    }
   };
-
 
   return (
     <div className="bg-[#222222]">
       <div className="max-w-[1200px] mx-auto flex justify-center items-center flex-col min-h-screen p-5">
         <div className="bg-[#2a2a2a] p-5 rounded-md mt-5 w-full">
-          <form onSubmit={(e) => handleAddToDo(e)} className="flex flex-col justify-between md:flex-row">
+          <form
+            onSubmit={(e) => handleAddToDo(e)}
+            className="flex flex-col justify-between md:flex-row"
+          >
             <input
               type="textarea"
               placeholder="Enter to do..."

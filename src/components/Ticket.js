@@ -20,7 +20,7 @@ const Ticket = ({
     buttonArray.filter((item) => item.todos !== ticket.currentColumnKey);
 
   const [flagText, setFlagText] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(ticket.text);
   return (
     <div className="border-b border-blue-400 py-2 mt-2">
       <p className="text-gray-100 uppercase">
